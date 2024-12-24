@@ -3,14 +3,14 @@ defaults:
   - model: base
 
 # workspace configuration
-workspace_root: ./workspace
+workspace_root: C:/Users/20182054/Documents/Cutie_data/RAMIE_15s # originally: ./workspace
 image_endpoint: images
 mask_endpoint: masks
 vis_endpoint: vis
 
 amp: True
 weights: weights/cutie-base-mega.pth # change if needed (original: weights/cutie-base-mega.pth)
-ritm_weights: weights/coco_lvis_h18_itermask.pth
+ritm_weights: weights/coco_lvis_h18_itermask.pth #C:/Users/20182054/Documents/Cutie/
 
 # All "size" parameters represent the length of the shorter edge
 # maximum internal processing size; reducing this speeds up processing

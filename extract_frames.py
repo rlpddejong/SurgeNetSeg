@@ -29,7 +29,7 @@ def copy_files(source_folder, destination_folder):
 # Define paths
 data_path = r'G:\datasets\RAMIE_879\RAMIE_879_raw_12classes'
 vid_path  = r'G:\RAMIE_videos_cut_crop_25fps\batch1'
-save_path = r'C:\Users\20182054\Documents\Cutie\data\RAMIE_15s'
+save_path = r'C:\Users\20182054\Documents\Cutie_data\RAMIE_15s'
 
 # Specify which frames to extract, e.g. -25 is 25 frames prior to annotated frame
 x = 187 #75 # Number of frames prior and after, e.g. choosing 1 yields: [-1,0,1]

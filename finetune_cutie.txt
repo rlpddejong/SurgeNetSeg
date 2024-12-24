@@ -1,0 +1,59 @@
+1. Place new .yaml file in 'Cutie/cutie/config/data/':
+
+filename: 'RAMIE.yaml' with content:
+
+defaults:
+  - datasets
+
+pre_training:
+  datasets:
+    - FSS
+    - DUTS_TR
+    - DUTS_TE
+    - ECSSD
+    - BIG
+    - HRSOD
+
+main_training:
+  datasets:
+    - RAMIE
+  num_iterations: 125000
+  lr_schedule_steps: [100000, 115000]
+
+
+
+2. Update datasets.yaml with data information:
+
+  RAMIE:
+    image_directory: /gpfs/home1/rdejong/RAMIE_Video_V1/images/
+    mask_directory: /gpfs/home1/rdejong/RAMIE_Video_V1/masks/
+    multiplier: 1
+    frame_interval: 1
+    subset: null
+    empty_masks: null
+
+
+
+3. Put data in DIR
+--RAMIE
+---- images
+------ P0003video2_00-03-12_0004812
+-------- P0003video2_00-03-09_0004737.png
+-------- P0003video2_00-03-09_0004738.png
+-------- ...
+------ ...
+---- masks
+------ P0003video2_00-03-12_0004812
+-------- P0003video2_00-03-09_0004737.png
+-------- P0003video2_00-03-09_0004738.png
+-------- ...
+------ ...
+
+4. Change num_objects to 12 in 'Cutie/cutie/config/train_config.yaml'
+
+5. If input frames are png's instead of jpg's, change line 248 in Cutie/cutie/dataset/vos_datasets.py:
+  this_im = Image.open(path.join(im_path, png_name)).convert('RGB') # CHANGED BY RONALD: jpg_name => png_name
+
+6. Run training command: OMP_NUM_THREADS=4 torchrun --master_port 25357 --nproc_per_node=4 cutie/train.py exp_id=0001 model=base data=RAMIE pre_training.enabled=False weights=/gpfs/home1/rdejong/Cutie/weights/cutie-base-mega.pth
+ 
+
