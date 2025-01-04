@@ -4,6 +4,7 @@ import numpy as np
 
 propagated_mask_path = './data/RAMIE/propagated_masks/'
 
+
 folders = [folder for folder in os.listdir(propagated_mask_path) if os.path.isdir(os.path.join(propagated_mask_path, folder))]
 
 def overlay_mask_with_multiple_classes(image, mask, color_map, alpha_map):
