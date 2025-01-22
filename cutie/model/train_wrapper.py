@@ -41,6 +41,7 @@ class CutieTrainWrapper(CUTIE):
         with torch.cuda.amp.autocast(enabled=self.use_amp):
             frames_flat = frames.view(b * seq_length, *frames.shape[2:])
             ms_feat, pix_feat = self.encode_image(frames_flat)
+
             with torch.cuda.amp.autocast(enabled=False):
                 keys, shrinkages, selections = self.transform_key(ms_feat[0].float())
 

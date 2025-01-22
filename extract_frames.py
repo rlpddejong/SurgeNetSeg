@@ -42,18 +42,18 @@ img_path = os.path.join(data_path,'images')
 mask_path = os.path.join(data_path,'masks')
 
 #save_img_path = os.path.join(save_path,'images')
-
 # # Create save directories
 # if not os.path.exists(save_img_path):
 #         os.makedirs(save_img_path)
-
 # Copy original files to new location
 #copy_files(img_path,save_img_path)
-copy_files(mask_path, save_path)
+
+#copy_files(mask_path, save_path) # Uncomment for copying masks
 
 nr_frames = len(os.listdir(mask_path))
 
 img_names = os.listdir(img_path)
+
 
 from tqdm import tqdm  # Import tqdm for the progress bar
 
@@ -62,6 +62,8 @@ for img_name in tqdm(img_names, desc="Processing Images"):
 
     save_img_path = os.path.join(save_path, img_name.replace(".png", ""), 'images')
     
+    print(img_name)
+
     if not os.path.exists(save_img_path):
         os.makedirs(save_img_path)
 
