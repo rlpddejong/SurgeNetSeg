@@ -246,9 +246,6 @@ class InferenceCore:
         ms_feat, pix_feat = self.image_feature_store.get_features(self.curr_ti, image)
         key, shrinkage, selection = self.image_feature_store.get_key(self.curr_ti, image)
 
-        print('POTATO ms:', len(ms_feat), flush=True)
-        print('POTATO pix:', len(pix_feat), flush=True)
-
         # segmentation from memory if needed
         if need_segment:
             pred_prob_with_bg = self._segment(key,

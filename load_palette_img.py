@@ -43,7 +43,7 @@ palette = np.array([
     [255,   0, 157],            # Pericardium        (Purple)
     [255, 255, 255],            # Airways            (White)
     [255, 255,   0],            # Nerves             (Yellow)
-    [100, 80,   0],            # Hook               (Orange)
+    [100, 80,   0],             # Hook               (Orange)
     [128,   0,   0],            # Forceps            (Red)
     [  0, 128,   0],            # Suction/irrigation (Green)
     [  0, 255, 255],            # Vessel sealer      (Cyan)

@@ -15,11 +15,13 @@ custom_palette_np = np.array([
     [255,   0, 157],            # Pericardium        (Purple)
     [255, 255, 255],            # Airways            (White)
     [255, 255,   0],            # Nerves             (Yellow)
-    [100, 80,   0],            # Hook               (Orange)
+    [100,  80,   0],            # Hook               (Orange)
     [128,   0,   0],            # Forceps            (Red)
     [  0, 128,   0],            # Suction/irrigation (Green)
     [  0, 255, 255],            # Vessel sealer      (Cyan)
-    [  0, 255,   0]             # Thoracic duct      (Green)
+    [  0, 255,   0],            # Thoracic duct      (Green)
+    [  0, 128, 128],            # Clip applier       (Teal)
+    [128, 255,   0],            # Needle driver      (Neon Green)
 ])
 
 custom_palette = custom_palette_np.astype(np.uint8).tobytes()
@@ -37,5 +39,7 @@ custom_names = [
 'Forceps',
 'Suction/irrigation',
 'Vessel sealer',
-'Thoracic duct'
+'Thoracic duct',
+'Clip applier',
+'Needle driver',
 ]

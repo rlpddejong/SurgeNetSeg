@@ -21,7 +21,7 @@ def main():
     # you might want to experiment with different sizes, -1 keeps the original size
     processor.max_internal_size = 480
 
-    image_path = './examples/images/bike'
+    image_path = r'C:\Users\20182054\OneDrive - TU Eindhoven\PhD\code\Cutie_RAMIE\examples\images\ramie'
     # ordering is important
     images = sorted(os.listdir(image_path))
 
@@ -29,7 +29,7 @@ def main():
     # NOTE: this should be a grayscale mask or a indexed (with/without palette) mask,
     # and definitely NOT a colored RGB image
     # https://pillow.readthedocs.io/en/stable/handbook/concepts.html: mode "L" or "P"
-    mask = Image.open('./examples/masks/bike/00000.png')
+    mask = Image.open(r'C:\Users\20182054\OneDrive - TU Eindhoven\PhD\code\Cutie_RAMIE\examples\masks\ramie\P0003video2_00-01-23_0002082.png')
     assert mask.mode in ['L', 'P']
 
     # palette is for visualization
@@ -51,6 +51,7 @@ def main():
         if ti == 0:
             # if mask is passed in, it is memorized
             # if not all objects are specified, we propagate the unspecified objects using memory
+            print(image.shape, mask.shape)
             output_prob = processor.step(image, mask, objects=objects)
         else:
             # otherwise, we propagate the mask from memory
