@@ -61,6 +61,10 @@ if __name__ in "__main__":
         device = 'mps'
     else:
         device = 'cpu'
+
+    device = 'cpu'
+    #device = 'cuda'
+    
     args.device = device
     log.info(f'Using device: {device}')
 

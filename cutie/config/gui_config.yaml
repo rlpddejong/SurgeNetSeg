@@ -9,7 +9,7 @@ mask_endpoint: masks
 vis_endpoint: vis
 
 amp: True
-weights: weights/test.pth #weights/RAMIE_24_IT11600_l133.pth  # change if needed (original: weights/cutie-base-mega.pth)
+weights: weights/RAMIE_24_IT11600_l133.pth  # change if needed (original: weights/cutie-base-mega.pth) # weights/test.pth #
 ritm_weights: weights/coco_lvis_h18_itermask_finetuned_ep90_includingtest.pth  #C:/Users/20182054/Documents/Cutie/
 
 # All "size" parameters represent the length of the shorter edge
