@@ -29,7 +29,10 @@ from gui.reader import PropagationReader, get_data_loader
 from gui.exporter import convert_frames_to_video, convert_mask_to_binary
 from gui.cutie.utils.download_models import download_models_if_needed
 
+from gui.cutie.utils.palette import custom_palette_np # added
+
 log = logging.getLogger()
+
 
 
 class MainController():
@@ -117,6 +120,11 @@ class MainController():
         self.gui.on_mouse_motion_xy = self.on_mouse_motion_xy
         self.gui.click_fn = self.click_fn
 
+        # Variables for polygon drawing and hovering first point
+        self.polygon_points = []
+        self.hover_first_point = False
+        self.hover_threshold = 8  # pixels
+
         self.gui.show()
         self.gui.text('Initialized.')
         self.initialized = True
@@ -144,6 +152,49 @@ class MainController():
         self.gui.text(f'Current object changed to {number}.')
         self.gui.set_object_color(number)
         self.show_current_frame()
+    
+    def on_mouse_motion_xy(self, x: int, y: int):
+        # Check if polygon is being drawn and at least one point exists
+        if self.polygon_points:
+            # Check distance to first point
+            first_pt = self.polygon_points[0]
+            dist = ((x - first_pt[0])**2 + (y - first_pt[1])**2)**0.5
+            was_hovering = self.hover_first_point
+            self.hover_first_point = dist <= self.hover_threshold
+            
+            # If hover state changed, redraw polygon overlay to update color
+            if self.hover_first_point != was_hovering:
+                self.compose_polygon_overlay()
+                self.update_canvas()
+        self.last_ex, self.last_ey = x, y
+
+    def compose_polygon_overlay(self):
+        # Reset to base visualization image
+        self.compose_current_im()
+
+        # Draw polygon points and lines
+        pts = [(int(px), int(py)) for (px, py) in self.polygon_points]
+
+        # Get color for the current object
+        r, g, b = custom_palette_np[self.curr_object] 
+        r, g, b = int(r), int(g), int(b)
+
+        # Draw lines between points
+        if len(pts) > 1:
+            for i in range(len(pts) - 1):
+                cv2.line(self.vis_image, pts[i], pts[i + 1], color=(r,g,b), thickness=1)
+
+        # Draw points with hover effect on first point
+        for i, pt in enumerate(pts):
+            if i == 0 and self.hover_first_point:
+                # Hover color: white
+                color = (255, 255, 255)
+                radius = 6
+            else:
+                # Normal color: yellow
+                color = (r,g,b)
+                radius = 4
+            cv2.circle(self.vis_image, pt, radius=radius, color=color, thickness=-1)
 
     def click_fn(self, action: Literal['left', 'right', 'middle'], x: int, y: int):
         if self.propagating:
@@ -172,16 +223,68 @@ class MainController():
                 self.update_interacted_mask()
                 self.update_gpu_gauges()
 
+                # If polygon drawing was in progress, cancel it on left/right click
+                if self.polygon_points:
+                    self.polygon_points = []
+                    self.hover_first_point = False
+                    self.compose_current_im()
+                    self.update_canvas()
+
             elif action == 'middle':
-                # middle: select a new visualization object
-                target_object = self.curr_mask[int(y), int(x)]
-                if target_object in self.vis_target_objects:
-                    self.vis_target_objects.remove(target_object)
+
+                # Polygon finalization check:
+                if self.polygon_points:
+                    # Check if middle click near first point => finalize polygon
+                    first_pt = self.polygon_points[0]
+                    dist = ((x - first_pt[0])**2 + (y - first_pt[1])**2)**0.5
+                    if dist <= self.hover_threshold:
+                        # Finalize polygon:
+                        self.gui.text('Finalizing polygon.')
+
+                        # Close polygon by adding first point at the end (if not closed)
+                        if self.polygon_points[-1] != first_pt:
+                            self.polygon_points.append(first_pt)
+
+                        # Create binary mask from polygon
+                        mask = np.zeros((self.h, self.w), dtype=np.uint8)
+                        pts_np = np.array([[(int(px), int(py)) for px, py in self.polygon_points]], dtype=np.int32)
+                        cv2.fillPoly(mask, pts_np, color=1)
+
+                        # Apply to current object mask
+                        self.curr_mask[mask > 0] = self.curr_object
+
+                        # ✅ Ensure it's saved to frame storage
+                        self.save_current_mask()
+
+                        # Reset interaction state and refresh frame
+                        self.polygon_points = []
+                        self.hover_first_point = False
+                        self.show_current_frame()
+
+                        self.gui.text('Polygon finalized and added to segmentation.')
+
+                        # Reset polygon points after finalizing
+                        self.polygon_points = []
+                        self.hover_first_point = False
+                        return
+                    else:
+                        # Add point normally
+                        self.polygon_points.append((x, y))
+                        self.gui.text(f'Added polygon point: ({x}, {y})')
+
+                        # Redraw polygon overlay with new point
+                        self.compose_polygon_overlay()
+                        self.update_canvas()
+                        return
                 else:
-                    self.vis_target_objects.append(target_object)
-                self.gui.text(f'Overlay target(s) changed to {self.vis_target_objects}')
-                self.show_current_frame()
-                return
+                    # Start new polygon with first point
+                    self.polygon_points = [(x, y)]
+                    self.gui.text(f'Started polygon with point: ({x}, {y})')
+                    self.hover_first_point = False
+                    self.compose_polygon_overlay()
+                    self.update_canvas()
+                    return
+
             else:
                 raise NotImplementedError
 
@@ -606,9 +709,22 @@ class MainController():
     def on_save_soft_mask_toggle(self):
         self.save_soft_mask = self.gui.save_soft_mask_checkbox.isChecked()
 
-    def on_mouse_motion_xy(self, x, y):
-        self.last_ex = x
-        self.last_ey = y
+    def on_mouse_motion_xy(self, x: int, y: int):
+        self.last_ex, self.last_ey = x, y
+
+        # Check if polygon is being drawn and at least one point exists
+        if self.polygon_points:
+            # Check distance to first point
+            first_pt = self.polygon_points[0]
+            dist = ((x - first_pt[0])**2 + (y - first_pt[1])**2)**0.5
+            was_hovering = self.hover_first_point
+            self.hover_first_point = dist <= self.hover_threshold
+
+            # If hover state changed, update the canvas
+            if self.hover_first_point != was_hovering:
+                self.compose_polygon_overlay()
+                self.update_canvas()
+
 
     @property
     def h(self) -> int:
