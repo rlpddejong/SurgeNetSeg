@@ -14,7 +14,7 @@ if not hasattr(Image, 'Resampling'):  # Pillow<9.0
     Image.Resampling = Image
 import numpy as np
 
-from cutie.utils.palette import custom_palette
+from gui.cutie.utils.palette import custom_palette
 from tqdm import tqdm
 
 log = logging.getLogger()

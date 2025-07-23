@@ -50,7 +50,7 @@ if __name__ in "__main__":
     log = logging.getLogger()
 
     # getting hydra's config without using its decorator
-    initialize(version_base='1.3.2', config_path="cutie/config", job_name="gui")
+    initialize(version_base='1.3.2', config_path="gui/cutie/config", job_name="gui")
     cfg = compose(config_name="gui_config")
 
     # general setup

@@ -17,8 +17,8 @@ from torchvision.transforms.functional import to_tensor
 import numpy as np
 from omegaconf import DictConfig, open_dict
 
-from cutie.model.cutie import CUTIE
-from cutie.inference.inference_core import InferenceCore
+from gui.cutie.model.cutie import CUTIE
+from gui.cutie.inference.inference_core import InferenceCore
 
 from gui.interaction import *
 from gui.interactive_utils import *
@@ -27,7 +27,7 @@ from gui.gui import GUI
 from gui.click_controller import ClickController
 from gui.reader import PropagationReader, get_data_loader
 from gui.exporter import convert_frames_to_video, convert_mask_to_binary
-from cutie.utils.download_models import download_models_if_needed
+from gui.cutie.utils.download_models import download_models_if_needed
 
 log = logging.getLogger()
 

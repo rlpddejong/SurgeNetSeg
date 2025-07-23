@@ -5,7 +5,7 @@ import numpy as np
 
 import torch
 import torch.nn.functional as F
-from cutie.utils.palette import custom_palette
+from gui.cutie.utils.palette import custom_palette
 
 
 def image_to_torch(frame: np.ndarray, device: str = 'cuda'):

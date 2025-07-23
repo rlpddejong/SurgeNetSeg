@@ -11,7 +11,7 @@ from PySide6.QtWidgets import (QWidget, QComboBox, QCheckBox, QHBoxLayout, QLabe
 from PySide6.QtGui import (QKeySequence, QShortcut, QTextCursor, QImage, QPixmap, QIcon)
 from PySide6.QtCore import Qt, QTimer
 
-from cutie.utils.palette import custom_palette_np, custom_names
+from gui.cutie.utils.palette import custom_palette_np, custom_names
 from gui.gui_utils import *
 
 
