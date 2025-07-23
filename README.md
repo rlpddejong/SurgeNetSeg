@@ -50,3 +50,6 @@ python python interactive_demo.py --num_objects 14 --video P0024video1_01-38-43_
 - The GUI tools are adapted from [Cutie](https://github.com/hkchengrex/Cutie) and [RITM](https://github.com/SamsungLabs/ritm_interactive_segmentation). This part of the code follows their individual licenses. For more information on fine-tuning these models, please refer to their original repositories.
 
 
+## References
+
+- The GUI tools used in this project are adapted from the excellent work in [Cutie](https://github.com/hkchengrex/Cutie) and [RITM](https://github.com/SamsungLabs/ritm_interactive_segmentation). We would like to express our appreciation for their open-source contributions, which form the foundation for the interactive segmentation components of this project. Portions of our code are derived from or inspired by these repositories and are used in accordance with their respective licenses. For detailed instructions and additional capabilities, please refer to their original repositories.
