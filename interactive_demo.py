@@ -62,7 +62,7 @@ if __name__ in "__main__":
     else:
         device = 'cpu'
 
-    device = 'cpu'
+    #device = 'cpu'
     #device = 'cuda'
     
     args.device = device
