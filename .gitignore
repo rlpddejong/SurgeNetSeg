@@ -145,3 +145,7 @@ dmypy.json
 # images
 .png
 .jpg
+
+# Models
+.pt
+.pth
