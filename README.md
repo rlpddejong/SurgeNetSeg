@@ -1,6 +1,6 @@
 # SurgeNetSeg: A large-scale Dataset for Surgical Semantic Segmentation
 
-![Figure](Figures/example_figure.pdf)
+![Figure](Figures/example_figure.png)
 
 ## Installation
 
