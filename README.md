@@ -1,5 +1,7 @@
 # SurgeNetSeg: A large-scale Dataset for Surgical Semantic Segmentation
 
+![Figure](Figures/example_figure.pdf)
+
 ## Installation
 
 Tested on Ubuntu only.
