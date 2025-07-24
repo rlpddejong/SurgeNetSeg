@@ -17,7 +17,7 @@ Controls:
 
 Visualizations:
 
-- Middle-click on target objects to toggle some visualization effects (for layered, popout, RGBA, and binary mask export).
+- Middle-click makes a polygon instead of the zero-shot predictions.
 - Soft masks are only saved for the "propagated" frames, not for the interacted frames. To save all frames, utilize forward and backward propagation.
 - For some visualizations (layered and RGBA), the images saved during propagation will be higher quality with soft edges. This is because we have access to the soft mask only during propagation. Set the save visualization mode to "Propagation only" to only save during propagation.
 - The "layered" visualization mode inserts an RGBA layer between the foreground and the background. Use "import layer" to select a new layer.
