@@ -256,6 +256,9 @@ class MainController():
                         # ✅ Ensure it's saved to frame storage
                         self.save_current_mask()
 
+                        # 🛠️ Fix: Convert mask to probability for propagation
+                        self.curr_prob = index_numpy_to_one_hot_torch(self.curr_mask, self.num_objects + 1).to(self.device)
+
                         # Reset interaction state and refresh frame
                         self.polygon_points = []
                         self.hover_first_point = False
