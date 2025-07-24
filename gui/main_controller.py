@@ -124,6 +124,7 @@ class MainController():
         self.polygon_points = []
         self.hover_first_point = False
         self.hover_threshold = 8  # pixels
+        self.in_polygon_mode = False
 
         self.gui.show()
         self.gui.text('Initialized.')
@@ -200,21 +201,84 @@ class MainController():
         if self.propagating:
             return
 
+        if not hasattr(self, 'in_polygon_mode'):
+            self.in_polygon_mode = False  # new flag to track current mode
+
+        if action == 'middle':
+            # Toggle polygon mode
+            self.in_polygon_mode = not self.in_polygon_mode
+            self.polygon_points = []
+            self.hover_first_point = False
+            mode_text = 'Polygon mode ON' if self.in_polygon_mode else 'Click mode ON'
+            self.gui.text(mode_text)
+            self.compose_current_im()
+            self.update_canvas()
+            return
+
+        if self.in_polygon_mode:
+            # In polygon drawing mode
+            if action == 'left':
+                if self.polygon_points:
+                    first_pt = self.polygon_points[0]
+                    dist = ((x - first_pt[0])**2 + (y - first_pt[1])**2)**0.5
+                    if dist <= self.hover_threshold:
+                        # Finalize polygon
+                        self.gui.text('Finalizing polygon.')
+
+                        # Close polygon loop
+                        if self.polygon_points[-1] != first_pt:
+                            self.polygon_points.append(first_pt)
+
+                        # Create binary mask
+                        mask = np.zeros((self.h, self.w), dtype=np.uint8)
+                        pts_np = np.array([[(int(px), int(py)) for px, py in self.polygon_points]], dtype=np.int32)
+                        cv2.fillPoly(mask, pts_np, color=1)
+                        self.curr_mask[mask > 0] = self.curr_object
+                        self.save_current_mask()
+
+                        # ✅ Update probability map so it's used for propagation
+                        self.curr_prob = index_numpy_to_one_hot_torch(self.curr_mask, self.num_objects + 1).to(self.device)
+
+                        self.polygon_points = []
+                        self.hover_first_point = False
+                        self.show_current_frame()
+                        self.gui.text('Polygon finalized and added to segmentation.')
+                        return
+                # Add new point
+                self.polygon_points.append((x, y))
+                self.gui.text(f'Polygon point added: ({x}, {y})')
+                self.compose_polygon_overlay()
+                self.update_canvas()
+                return
+
+            elif action == 'right':
+                # Remove last point
+                if self.polygon_points:
+                    removed = self.polygon_points.pop()
+                    self.gui.text(f'Removed polygon point: {removed}')
+                    self.compose_polygon_overlay()
+                    self.update_canvas()
+                else:
+                    self.gui.text('No points to remove.')
+                return
+
+            else:
+                # Do nothing in polygon mode for other actions
+                return
+
+        # Not in polygon mode: do normal click interaction
         last_interaction = self.interaction
         new_interaction = None
 
         with autocast(self.device, enabled=(self.amp and self.device == 'cuda')):
             if action in ['left', 'right']:
-                # left: positive click
-                # right: negative click
                 self.convert_current_image_mask_torch()
                 image = self.curr_image_torch
                 if (last_interaction is None or last_interaction.tar_obj != self.curr_object):
-                    # create new interaction is needed
                     self.complete_interaction()
                     self.click_ctrl.unanchor()
                     new_interaction = ClickInteraction(image, self.curr_prob, (self.h, self.w),
-                                                       self.click_ctrl, self.curr_object)
+                                                    self.click_ctrl, self.curr_object)
                     if new_interaction is not None:
                         self.interaction = new_interaction
 
@@ -222,74 +286,6 @@ class MainController():
                 self.interacted_prob = self.interaction.predict().to(self.device, non_blocking=True)
                 self.update_interacted_mask()
                 self.update_gpu_gauges()
-
-                # If polygon drawing was in progress, cancel it on left/right click
-                if self.polygon_points:
-                    self.polygon_points = []
-                    self.hover_first_point = False
-                    self.compose_current_im()
-                    self.update_canvas()
-
-            elif action == 'middle':
-
-                # Polygon finalization check:
-                if self.polygon_points:
-                    # Check if middle click near first point => finalize polygon
-                    first_pt = self.polygon_points[0]
-                    dist = ((x - first_pt[0])**2 + (y - first_pt[1])**2)**0.5
-                    if dist <= self.hover_threshold:
-                        # Finalize polygon:
-                        self.gui.text('Finalizing polygon.')
-
-                        # Close polygon by adding first point at the end (if not closed)
-                        if self.polygon_points[-1] != first_pt:
-                            self.polygon_points.append(first_pt)
-
-                        # Create binary mask from polygon
-                        mask = np.zeros((self.h, self.w), dtype=np.uint8)
-                        pts_np = np.array([[(int(px), int(py)) for px, py in self.polygon_points]], dtype=np.int32)
-                        cv2.fillPoly(mask, pts_np, color=1)
-
-                        # Apply to current object mask
-                        self.curr_mask[mask > 0] = self.curr_object
-
-                        # ✅ Ensure it's saved to frame storage
-                        self.save_current_mask()
-
-                        # 🛠️ Fix: Convert mask to probability for propagation
-                        self.curr_prob = index_numpy_to_one_hot_torch(self.curr_mask, self.num_objects + 1).to(self.device)
-
-                        # Reset interaction state and refresh frame
-                        self.polygon_points = []
-                        self.hover_first_point = False
-                        self.show_current_frame()
-
-                        self.gui.text('Polygon finalized and added to segmentation.')
-
-                        # Reset polygon points after finalizing
-                        self.polygon_points = []
-                        self.hover_first_point = False
-                        return
-                    else:
-                        # Add point normally
-                        self.polygon_points.append((x, y))
-                        self.gui.text(f'Added polygon point: ({x}, {y})')
-
-                        # Redraw polygon overlay with new point
-                        self.compose_polygon_overlay()
-                        self.update_canvas()
-                        return
-                else:
-                    # Start new polygon with first point
-                    self.polygon_points = [(x, y)]
-                    self.gui.text(f'Started polygon with point: ({x}, {y})')
-                    self.hover_first_point = False
-                    self.compose_polygon_overlay()
-                    self.update_canvas()
-                    return
-
-            else:
-                raise NotImplementedError
 
     def load_current_image_mask(self, no_mask: bool = False):
         self.curr_image_np = self.res_man.get_image(self.curr_ti)
