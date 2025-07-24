@@ -152,6 +152,7 @@ class MainController():
             self.click_ctrl.unanchor()
         self.gui.text(f'Current object changed to {number}.')
         self.gui.set_object_color(number)
+        self.gui.set_current_object_id(number)
         self.show_current_frame()
     
     def on_mouse_motion_xy(self, x: int, y: int):
@@ -702,8 +703,8 @@ class MainController():
         except FileNotFoundError:
             self.gui.text(f'{file_name} not found.')
 
-    def on_set_save_visualization_mode(self):
-        self.save_visualization_mode = self.gui.save_visualization_combo.currentText()
+    # def on_set_save_visualization_mode(self):
+    #     self.save_visualization_mode = self.gui.save_visualization_combo.currentText()
 
     def on_save_soft_mask_toggle(self):
         self.save_soft_mask = self.gui.save_soft_mask_checkbox.isChecked()

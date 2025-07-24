@@ -13,6 +13,7 @@ from PySide6.QtCore import Qt, QTimer
 
 from gui.cutie.utils.palette import custom_palette_np, custom_names
 from gui.gui_utils import *
+from gui.ritm import controller
 
 
 class GUI(QWidget):
@@ -72,8 +73,16 @@ class GUI(QWidget):
         self.lcd.setMaximumWidth(150)
         self.lcd.setText('{: 5d} / {: 5d}'.format(0, controller.T - 1))
 
-        # current object id
+        # ID
         self.object_dial = QSpinBox()
+
+        self.object_class_combo = QComboBox()
+        for obj_id in range(1, controller.num_objects + 1):
+            class_name = custom_names[obj_id]  # assuming `custom_names` is a list or dict
+            self.object_class_combo.addItem(class_name, obj_id)  # store obj_id as userData
+
+        self.object_class_combo.currentIndexChanged.connect(self.on_class_combo_changed)
+
         self.object_dial.setReadOnly(False)
         self.object_dial.setMinimumSize(50, 30)
         self.object_dial.setMinimum(1)
@@ -81,7 +90,7 @@ class GUI(QWidget):
         self.object_dial.editingFinished.connect(controller.on_object_dial_change)
 
         self.object_color = QLabel()
-        self.object_color.setMinimumSize(100, 30)
+        self.object_color.setMinimumSize(30, 30)
         self.object_color.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.frame_name = QLabel()
@@ -104,18 +113,18 @@ class GUI(QWidget):
         self.combo.addItem("fade")
         self.combo.addItem("light")
         self.combo.addItem("popup")
-        self.combo.addItem("layer")
+        #self.combo.addItem("layer")
         self.combo.addItem("rgba")
         self.combo.setCurrentText('davis')
         self.combo.currentTextChanged.connect(controller.set_vis_mode)
 
-        self.save_visualization_combo = QComboBox(self)
-        self.save_visualization_combo.addItem("None")
-        self.save_visualization_combo.addItem("Always")
-        self.save_visualization_combo.addItem("Propagation only (higher quality)")
+        #self.save_visualization_combo = QComboBox(self)
+        #self.save_visualization_combo.addItem("None")
+        #self.save_visualization_combo.addItem("Always")
+        #self.save_visualization_combo.addItem("Propagation only (higher quality)")
         self.combo.setCurrentText('None')
-        self.save_visualization_combo.currentTextChanged.connect(
-            controller.on_set_save_visualization_mode)
+        #self.save_visualization_combo.currentTextChanged.connect(
+        #    controller.on_set_save_visualization_mode)
 
         self.save_soft_mask_checkbox = QCheckBox(self)
         self.save_soft_mask_checkbox.toggled.connect(controller.on_save_soft_mask_toggle)
@@ -209,10 +218,14 @@ class GUI(QWidget):
         interact_topbox.addWidget(self.play_button)
         interact_topbox.addWidget(self.reset_frame_button)
         interact_topbox.addWidget(self.reset_object_button)
-        interact_botbox.addWidget(QLabel('Current object ID:'))
+
+        interact_botbox.addWidget(QLabel('ID:'))
         interact_botbox.addWidget(self.object_dial)
+        interact_botbox.addWidget(QLabel('Class:'))
+        interact_botbox.addWidget(self.object_class_combo)
         interact_botbox.addWidget(self.object_color)
         interact_botbox.addWidget(self.frame_name)
+
         interact_subbox.addLayout(interact_topbox)
         interact_subbox.addLayout(interact_botbox)
         interact_botbox.setAlignment(Qt.AlignmentFlag.AlignLeft)
@@ -236,7 +249,7 @@ class GUI(QWidget):
         overlay_topbox.addWidget(self.save_soft_mask_checkbox)
         overlay_topbox.addWidget(self.export_binary_button)
         overlay_botbox.addWidget(QLabel('Save visualization'))
-        overlay_botbox.addWidget(self.save_visualization_combo)
+        #overlay_botbox.addWidget(self.save_visualization_combo)
         overlay_botbox.addWidget(self.export_video_button)
         overlay_botbox.addWidget(QLabel('Output FPS: '))
         overlay_botbox.addWidget(self.fps_dial)
@@ -347,6 +360,30 @@ class GUI(QWidget):
         # quit shortcut
         QShortcut(QKeySequence(Qt.Key.Key_Q), self).activated.connect(self.close)
 
+    def set_current_object_id(self, object_id: int):
+        self.object_dial.blockSignals(True)
+        self.object_dial.setValue(object_id)
+        self.object_dial.blockSignals(False)
+
+        # Update combo box to match object_id
+        index = self.object_class_combo.findData(object_id)
+        if index != -1:
+            self.object_class_combo.blockSignals(True)
+            self.object_class_combo.setCurrentIndex(index)
+            self.object_class_combo.blockSignals(False)
+
+        self.set_object_color(object_id)
+
+    def on_class_combo_changed(self, index):
+        obj_id = self.object_class_combo.itemData(index)
+        if obj_id is None:
+            return
+
+        self.object_dial.blockSignals(True)
+        self.object_dial.setValue(obj_id)
+        self.object_dial.blockSignals(False)
+
+        self.controller.on_object_dial_change()
 
     def resizeEvent(self, event):
         self.controller.show_current_frame()
@@ -475,12 +512,10 @@ class GUI(QWidget):
         return file_name
 
     def set_object_color(self, object_id: int):
-        #r, g, b = davis_palette_np[object_id]
         r, g, b = custom_palette_np[object_id]
         rgb = f'rgb({r},{g},{b})'
-        self.object_color.setStyleSheet('QLabel {background: ' + rgb + ';}')
-        #self.object_color.setText(f'{object_id}')
-        self.object_color.setText(f'{custom_names[object_id]}')
+        self.object_color.setFixedSize(30, 30)  # Make it square
+        self.object_color.setStyleSheet(f'QLabel {{ background-color: {rgb}; border: 1px solid #d3d3d3; }}')
 
     def progressbar_update(self, progress: float):
         self.progressbar.setValue(int(progress * 100))
