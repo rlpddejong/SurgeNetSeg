@@ -703,9 +703,6 @@ class MainController():
         except FileNotFoundError:
             self.gui.text(f'{file_name} not found.')
 
-    # def on_set_save_visualization_mode(self):
-    #     self.save_visualization_mode = self.gui.save_visualization_combo.currentText()
-
     def on_save_soft_mask_toggle(self):
         self.save_soft_mask = self.gui.save_soft_mask_checkbox.isChecked()
 
