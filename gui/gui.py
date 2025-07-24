@@ -186,15 +186,15 @@ class GUI(QWidget):
         interact_topbox.addWidget(self.play_button)
         interact_topbox.addWidget(self.reset_frame_button)
         interact_topbox.addWidget(self.reset_object_button)
-        interact_topbox.addWidget(QLabel('Visualization mode'))
-        interact_topbox.addWidget(self.combo)
+        interact_topbox.addWidget(self.frame_name)
 
+        interact_botbox.addWidget(self.object_color)
         interact_botbox.addWidget(QLabel('ID:'))
         interact_botbox.addWidget(self.object_dial)
         interact_botbox.addWidget(QLabel('Class:'))
         interact_botbox.addWidget(self.object_class_combo)
-        interact_botbox.addWidget(self.object_color)
-        interact_botbox.addWidget(self.frame_name)
+        interact_botbox.addWidget(QLabel('Visualization mode'))
+        interact_botbox.addWidget(self.combo)
 
         interact_subbox.addLayout(interact_topbox)
         interact_subbox.addLayout(interact_botbox)
@@ -472,7 +472,7 @@ class GUI(QWidget):
     def set_object_color(self, object_id: int):
         r, g, b = custom_palette_np[object_id]
         rgb = f'rgb({r},{g},{b})'
-        self.object_color.setFixedSize(30, 30)  # Make it square
+        self.object_color.setFixedSize(50, 30)  # Make it square
         self.object_color.setStyleSheet(f'QLabel {{ background-color: {rgb}; border: 1px solid #d3d3d3; }}')
 
     def progressbar_update(self, progress: float):
