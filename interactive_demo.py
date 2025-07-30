@@ -11,6 +11,8 @@ signal.signal(signal.SIGINT, signal.SIG_DFL)
 
 from argparse import ArgumentParser
 
+from gui.cutie.utils.palette import custom_palette
+
 def get_arguments():
     parser = ArgumentParser()
     """
@@ -26,7 +28,7 @@ def get_arguments():
     parser.add_argument('--workspace',
                         help='directory for storing buffered images (if needed) and output masks',
                         default=None)
-    parser.add_argument('--num_objects', type=int, default=1)
+    parser.add_argument('--num_objects', type=int, default=len(custom_palette)//3)
     parser.add_argument('--workspace_init_only', action='store_true',
                         help='initialize the workspace and exit')
 

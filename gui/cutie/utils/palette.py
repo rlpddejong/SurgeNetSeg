@@ -160,3 +160,39 @@ custom_names = {
 custom_palette_np = np.array([color_palette.get(i, (0, 0, 0)) for i in range(101)])
 
 custom_palette = custom_palette_np.astype(np.uint8).tobytes()
+
+
+# Termporary palette for RAMIE SurgeNetSeg
+color_palette = {
+    1: (255, 255, 255),  # Tools/camera - White
+    2: (255, 255, 0),    # Nerve (major) - Yellow
+    3: (250, 150, 100),  # Diaphragm - light Beige
+    4: (180, 0, 0),     # Aorta - Dark Red
+    5: (0, 0, 180),     # Vena cava - Dark Blue
+    6: (255, 20, 147), # Lung - Light Blue
+    7: (0, 150, 255),   # Airway (bronchus/trachea) - Sky Blue
+    8: (255, 100, 100), # Esophagus - Salmon
+    9: (100, 100, 255), # Pericardium - Pale Blue
+    10: (100, 100, 255), # V azygos - Blue
+    11: (0, 255, 150),   # Thoracic duct - Green Cyan
+    12: (50, 50, 50),    # Non anatomical structures - Dark Gray
+}
+
+custom_names = {
+    1: "Tools/camera",
+    2: "Nerve (major)",
+    3: "Diaphragm",
+    4: "Aorta",
+    5: "Vena cava",
+    6: "Lung",
+    7: "Airway (bronchus/trachea)",
+    8: "Esophagus",
+    9: "Pericardium",
+    10: "V azygos",
+    11: "Thoracic duct",
+    12: "Non anatomical structures",
+}
+
+custom_palette_np = np.array([color_palette.get(i, (0, 0, 0)) for i in range(len(custom_names))])
+
+custom_palette = custom_palette_np.astype(np.uint8).tobytes()

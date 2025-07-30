@@ -32,7 +32,7 @@ pip install -e .
 Start the interactive demo with:
 
 ```bash
-python python interactive_demo.py --num_objects 14 --video P0024video1_01-38-43_0148075_survey.mp4  
+python interactive_demo.py --video vid_folder_name
 ```
 
 [See more instructions here](gui/INTERACTIVE.md).

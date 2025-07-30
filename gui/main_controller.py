@@ -47,7 +47,7 @@ class MainController():
             if cfg["images"] is not None:
                 basename = path.basename(cfg["images"])
             elif cfg["video"] is not None:
-                basename = path.basename(cfg["video"])[:-4]
+                basename = path.basename(cfg["video"]) #[:-4]
             else:
                 raise NotImplementedError('Either images, video, or workspace has to be specified')
 

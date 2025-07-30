@@ -66,7 +66,7 @@ class ResourceManager:
             if images is not None:
                 basename = path.basename(images)
             elif video is not None:
-                basename = path.basename(video)[:-4]
+                basename = path.basename(video) #[:-4]
             else:
                 raise NotImplementedError('Either images, video, or workspace has to be specified')
 
@@ -245,9 +245,22 @@ class ResourceManager:
         # returns H*W*3 uint8 array
         assert 0 <= ti < self.length
 
-        image = Image.open(path.join(self.image_dir, self.names[ti] + '.png')).convert('RGB') # Change to PNG if needed
+        image = Image.open(path.join(self.image_dir, self.names[ti] + '.jpg')).convert('RGB') # Change to PNG if needed
         image = np.array(image)
         return image
+    
+    def _get_image_unbuffered(self, ti: int):
+        # returns H*W*3 uint8 array
+        assert 0 <= ti < self.length
+
+        base_path = os.path.join(self.image_dir, self.names[ti])
+        for ext in ['.jpg', '.png']:
+            img_path = base_path + ext
+            if os.path.exists(img_path):
+                image = Image.open(img_path).convert('RGB')
+                return np.array(image)
+
+        raise FileNotFoundError(f"No image found for {base_path} with supported extensions (.jpg, .png)")
 
     def _get_mask_unbuffered(self, ti: int):
         # returns H*W uint8 array
