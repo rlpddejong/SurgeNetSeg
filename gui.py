@@ -28,7 +28,7 @@ def get_arguments():
     parser.add_argument('--workspace',
                         help='directory for storing buffered images (if needed) and output masks',
                         default=None)
-    parser.add_argument('--num_objects', type=int, default=len(custom_palette)//3)
+    parser.add_argument('--num_objects', type=int, default=len(custom_palette)//3-1) # //3 because RGB, -1 because background
     parser.add_argument('--workspace_init_only', action='store_true',
                         help='initialize the workspace and exit')
 

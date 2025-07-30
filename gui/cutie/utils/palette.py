@@ -193,6 +193,6 @@ custom_names = {
     12: "Non anatomical structures",
 }
 
-custom_palette_np = np.array([color_palette.get(i, (0, 0, 0)) for i in range(len(custom_names))])
+custom_palette_np = np.array([color_palette.get(i, (0, 0, 0)) for i in range(len(custom_names)+1)])
 
 custom_palette = custom_palette_np.astype(np.uint8).tobytes()
