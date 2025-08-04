@@ -3,7 +3,7 @@ defaults:
   - model: base
 
 # workspace configuration
-workspace_root: D:\SurgeNetSeg\next_batch_esophagectomy #C:/Users/20182054/Documents/Cutie_data/RAMIE_15s # originally: ./workspace
+workspace_root: C:/Users/user1/Documents/Cutie_working_dir # originally: ./workspace
 image_endpoint: images
 mask_endpoint: masks
 vis_endpoint: vis
