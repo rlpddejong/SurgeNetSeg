@@ -722,6 +722,18 @@ class MainController():
                 self.compose_polygon_overlay()
                 self.update_canvas()
 
+    def on_toggle_vis_mode(self):
+        if self.vis_mode == 'davis':
+            self.vis_mode = 'light'
+        elif self.vis_mode == 'light':
+            self.vis_mode = 'davis'
+        else:
+            self.vis_mode = 'davis'
+        print(f'Visualization mode changed to {self.vis_mode}')
+ 
+        # Update the dropdown menu to show the current mode
+        self.gui.combo.setCurrentText(self.vis_mode)
+        self.show_current_frame()
 
     @property
     def h(self) -> int:
