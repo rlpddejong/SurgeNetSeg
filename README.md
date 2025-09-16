@@ -9,7 +9,7 @@ Tested on Ubuntu only.
 **Prerequisites:**
 
 - Python 3.8+
-- PyTorch 1.12+ and corresponding torchvision
+- PyTorch 1.12+ and corresponding torchvision (preferably with cuda GPU support for quick label propagation)
 
 **Clone our repository:**
 
