@@ -314,6 +314,9 @@ class GUI(QWidget):
         QShortcut(QKeySequence(Qt.Key.Key_F), self).activated.connect(controller.on_forward_propagation)
         QShortcut(QKeySequence(Qt.Key.Key_Space), self).activated.connect(controller.on_forward_propagation)
         QShortcut(QKeySequence(Qt.Key.Key_B), self).activated.connect(controller.on_backward_propagation)
+        
+        # Toggle visualization mode
+        QShortcut(QKeySequence(Qt.Key.Key_T), self).activated.connect(controller.on_toggle_vis_mode)
 
         # quit shortcut
         QShortcut(QKeySequence(Qt.Key.Key_Q), self).activated.connect(self.close)
