@@ -3,14 +3,14 @@ defaults:
   - model: base
 
 # workspace configuration
-workspace_root: D:\SurgeNetSeg\next_batch_esophagectomy #C:/Users/20182054/Documents/Cutie_data/RAMIE_15s # originally: ./workspace
+workspace_root: ./workspace
 image_endpoint: images
 mask_endpoint: masks
 vis_endpoint: vis
 
 amp: True
-weights: gui/weights/cutie-surgesam-0002.pth # RAMIE_24_IT11600_l133.pth
-ritm_weights: gui/weights/coco_lvis_h18_itermask_finetuned_ep90_includingtest.pth #ritm-surgesam-0001.pth # 
+weights: weights/cutie-surgenetseg-50k.pth
+ritm_weights: weights/ritm-surgenetseg-50k.pth
 
 # All "size" parameters represent the length of the shorter edge
 # maximum internal processing size; reducing this speeds up processing
