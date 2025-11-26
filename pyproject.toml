@@ -13,7 +13,7 @@ column_limit = 100
 [project]
 name = "cutie"
 version = "1.0.0"
-authors = [{ name = "Rex Cheng", email = "hkchengrex@gmail.com" }]
+authors = [{ name = "Ronald L.P.D. de Jong", email = "r.l.p.d.d.jong@tue.nl" }, {name = "Tim J.M. Jaspers", email = "t.j.m.jaspers@tue.nl"}]
 description = ""
 readme = "README.md"
 requires-python = ">=3.8"
