@@ -11,7 +11,7 @@ indent_width = 4
 column_limit = 100
 
 [project]
-name = "cutie"
+name = "SurgeNetSeg"
 version = "1.0.0"
 authors = [{ name = "Ronald L.P.D. de Jong", email = "r.l.p.d.d.jong@tue.nl" }, {name = "Tim J.M. Jaspers", email = "t.j.m.jaspers@tue.nl"}]
 description = ""
@@ -48,8 +48,7 @@ dependencies = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["cutie"]
+packages = ["SurgeNetSeg"]
 
 [project.urls]
-"Homepage" = "https://github.com/hkchengrex/Cutie"
-"Bug Tracker" = "https://github.com/hkchengrex/Cutie/issues"
+"Homepage" = "https://github.com/rlpddejong/SurgeNetSeg"
