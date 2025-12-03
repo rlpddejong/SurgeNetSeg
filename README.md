@@ -34,9 +34,9 @@ available for download.
 **Direct download links:**
 
 -   **cutie-surgesam-50k.pth**\
-    https://huggingface.co/TimJaspersTue/SurgeNetSeg/resolve/main/cutie-surgesam-50k.pth?download=true\
+    https://huggingface.co/TimJaspersTue/SurgeNetSeg/resolve/main/cutie-surgenetseg-50k.pth?download=true\
 -   **ritm-surgesam-50k.pth**\
-    https://huggingface.co/TimJaspersTue/SurgeNetSeg/resolve/main/ritm-surgesam-50k.pth?download=true
+    https://huggingface.co/TimJaspersTue/SurgeNetSeg/resolve/main/ritm-surgenetseg-50k.pth?download=true
 
 **Download via command line:**
 
