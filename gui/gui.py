@@ -32,7 +32,7 @@ class GUI(QWidget):
         self.T = controller.T
 
         # set up the window
-        self.setWindowTitle(f'Cutie demo: {cfg["workspace"]}')
+        self.setWindowTitle(f'SurgeNetSeg demo: {cfg["workspace"]}')
         self.setGeometry(100, 100, self.w + 200, self.h + 200)
         self.setWindowIcon(QIcon('docs/icon.png'))
 

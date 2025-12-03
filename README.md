@@ -2,6 +2,8 @@
 
 ![Figure](figures/example_figure.png)
 
+![Demo](figures/SurgeNetSeg_Labeling_Tool_Demo.gif)
+
 ## 🛠️ Installation
 
 Tested on Linux, Windows, and MAC OS.
