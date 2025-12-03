@@ -2,7 +2,9 @@
 
 ![Figure](figures/example_figure.png)
 
-![Demo](figures/SurgeNetSeg_Labeling_Tool_Demo.gif)
+<div style="text-align: center;">
+  <img src="figures/SurgeNetSeg_Labeling_Tool_Demo.gif" alt="Demo" style="max-width: 70%; height: auto;" />
+</div>
 
 ## 🛠️ Installation
 
