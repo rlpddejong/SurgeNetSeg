@@ -110,11 +110,15 @@ custom_names = {
 }
 
 color_palette = {
-    1: (255, 0, 0),  # Tools/camera - White
+    1: (255, 0, 0), # Class 1, red
+    2: (0, 0, 255), # Class 2, blue
+    3: (0, 255, 0), # Class 2, green
 }
 
 custom_names = {
-    1: "Temporary class",
+    1: "Class 1",
+    2: "Class 2",
+    3: "Class 3",
 }
 
 custom_palette_np = np.array([color_palette.get(i, (0, 0, 0)) for i in range(len(custom_names)+1)])

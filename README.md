@@ -44,8 +44,8 @@ available for download.
 mkdir -p weights
 cd weights
 
-wget -O cutie-surgesam-50k.pth "https://huggingface.co/TimJaspersTue/SurgeNetSeg/resolve/main/cutie-surgesam-50k.pth?download=true"
-wget -O ritm-surgesam-50k.pth  "https://huggingface.co/TimJaspersTue/SurgeNetSeg/resolve/main/ritm-surgesam-50k.pth?download=true"
+wget -O cutie-surgesam-50k.pth "https://huggingface.co/TimJaspersTue/SurgeNetSeg/resolve/main/cutie-surgenetseg-50k.pth?download=true"
+wget -O ritm-surgesam-50k.pth  "https://huggingface.co/TimJaspersTue/SurgeNetSeg/resolve/main/ritm-surgenetseg-50k.pth?download=true"
 ```
 
 You can also download these files directly from the Hugging Face project
@@ -64,7 +64,7 @@ preferred location and point your scripts to that path).
 Start the interactive demo with:
 
 ``` bash
-python gui.py --video vid_folder_name
+python gui.py --video examples/example.mp4
 ```
 
 [See more instructions here](gui/INTERACTIVE.md).
