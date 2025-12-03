@@ -4,13 +4,13 @@
 
 ## Installation
 
-Tested on Ubuntu only.
+Tested on Linux, Windows, and MAC OS.
 
 **Prerequisites:**
 
 -   Python 3.8+
 -   PyTorch 1.12+ and corresponding torchvision (preferably with CUDA
-    GPU support for quick label propagation)
+    GPU support for quick label propagation on Linux and Windows).
 
 **Clone our repository:**
 
@@ -24,51 +24,42 @@ git clone https://github.com/rlpddejong/SurgeNetSeg.git
 cd SurgeNetSeg
 pip install -e .
 ```
-------------------------------------------------------------------------
 
-## Pretrained Models
 
-Pretrained model weights for the interactive segmentation tools are
-available for download.
+## Quick Start: Video labeling tool
 
-**Direct download links:**
+**Opening the tool**
 
--   **cutie-surgesam-50k.pth**\
-    https://huggingface.co/TimJaspersTue/SurgeNetSeg/resolve/main/cutie-surgenetseg-50k.pth?download=true
--   **ritm-surgesam-50k.pth**\
-    https://huggingface.co/TimJaspersTue/SurgeNetSeg/resolve/main/ritm-surgenetseg-50k.pth?download=true
-
-**Download via command line:**
-
-``` bash
-mkdir -p weights
-cd weights
-
-wget -O cutie-surgesam-50k.pth "https://huggingface.co/TimJaspersTue/SurgeNetSeg/resolve/main/cutie-surgenetseg-50k.pth?download=true"
-wget -O ritm-surgesam-50k.pth  "https://huggingface.co/TimJaspersTue/SurgeNetSeg/resolve/main/ritm-surgenetseg-50k.pth?download=true"
-```
-
-You can also download these files directly from the Hugging Face project
-page:\
-https://huggingface.co/TimJaspersTue/SurgeNetSeg
-
-Place the downloaded `.pth` files in a `gui/weights/` directory (or another
-preferred location and point your scripts to that path).
-
-------------------------------------------------------------------------
-
-## Quick Start
-
-### Interactive Demo
-
-Start the interactive demo with:
+Start the interactive labeling tool with:
 
 ``` bash
 python gui.py --video examples/example.mp4
 ```
 
-[See more instructions here](gui/INTERACTIVE.md).
+This automatically downloads the model weights from huggingface into the `gui/weights` folder. And next, it extracts frames from an example video from the [Cholec80 dataset](https://camma.unistra.fr/datasets/) located in the `examples` folder. Then the GUI will open and be ready for labeling. 
 
+**Using the tool**
+
+See [TIPS](gui/TIPS.md) for some tips on using the tool. These are also shown at the top right inside the labeling tool.
+
+The stored masks will be placed inside the `workspace` folder. After trying the demo, it is also possible to put your frames in this folder directly to label data. If a `masks` folder exists in the workspace, we will use that to initialize the mask. That way, you can continue annotation from an interrupted run as long as the same workspace is used.
+
+**Modifying configurations and classes**
+
+There are additional configurations that you can modify in [gui_config](gui/cutie/config/gui_config.yaml).
+
+The classes can be modified inside [palette.py](gui/cutie/utils/palette.py). Here you choose the number of classes, the name, and its color. *Be aware that more classes result in slower temporal mask propagation!*
+
+
+## Pretrained Models
+
+The pretrained model weights should be downloaded automatically upon first run. In case this does not work, they can be downloaded here: 
+-   **cutie-surgenetseg-50k.pth**\
+    https://huggingface.co/TimJaspersTue/SurgeNetSeg/resolve/main/cutie-surgenetseg-50k.pth?download=true
+-   **ritm-surgenetseg-50k.pth**\
+    https://huggingface.co/TimJaspersTue/SurgeNetSeg/resolve/main/ritm-surgenetseg-50k.pth?download=true
+
+Place the downloaded `.pth` files in a `gui/weights/` directory.
 
 ## Citation
 
