@@ -1,10 +1,15 @@
 # 🚀 SurgeNetSeg: Clip-Level Anatomy Segmentation for Minimally Invasive Surgery
 
+SurgeNetSeg is an open-source framework for clip-level anatomical segmentation in minimally invasive surgery. It combines keyframe annotation with temporal mask propagation, enabling fast, temporally consistent labeling. The dataset includes 75k+ frames across 11 procedures and 29 anatomical classes, supporting development of segmentation models with improved temporal stability and generalization. Pretrained models and an interactive GUI are included for easy experimentation and annotation.
+
+### Overview of our dataset
+
 ![Figure](figures/example_figure.png)
 
-<div style="text-align: center;">
-  <img src="figures/SurgeNetSeg_Labeling_Tool_Demo.gif" alt="Demo" style="max-width: 70%; height: auto;" />
-</div>
+### Demo of interactive GUI (at 3x original speed)
+
+![Demo](figures/SurgeNetSeg_Labeling_Tool_Demo.gif)
+
 
 ## 🛠️ Installation
 
