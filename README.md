@@ -1,8 +1,8 @@
-# SurgeNetSeg: Clip-Level Anatomy Segmentation for Minimally Invasive Surgery
+# 🚀 SurgeNetSeg: Clip-Level Anatomy Segmentation for Minimally Invasive Surgery
 
 ![Figure](figures/example_figure.png)
 
-## Installation
+## 🛠️ Installation
 
 Tested on Linux, Windows, and MAC OS.
 
@@ -26,7 +26,7 @@ pip install -e .
 ```
 
 
-## Quick Start: Video labeling tool
+## ⚡ Quick Start: Video labeling tool
 
 **Opening the tool**
 
@@ -51,7 +51,7 @@ There are additional configurations that you can modify in [gui_config](gui/cuti
 The classes can be modified inside [palette.py](gui/cutie/utils/palette.py). Here you choose the number of classes, the name, and its color. *Be aware that more classes result in slower temporal mask propagation!*
 
 
-## Pretrained Models
+## 📦 Pretrained Models
 
 The pretrained model weights should be downloaded automatically upon first run. In case this does not work, they can be downloaded here: 
 -   **cutie-surgenetseg-50k.pth**\
@@ -61,16 +61,18 @@ The pretrained model weights should be downloaded automatically upon first run. 
 
 Place the downloaded `.pth` files in a `gui/weights/` directory.
 
-## Citation
+## 📚 Citation
+
+To be added.
 
 ``` bibtex
 @inproceedings{...
 }
 ```
 
-## References
+## 🙏 Acknowledgments
 
--   The GUI tools used in this project are adapted from the excellent
+The GUI tools used in this project are adapted from the excellent
     work in [Cutie](https://github.com/hkchengrex/Cutie) and
     [RITM](https://github.com/SamsungLabs/ritm_interactive_segmentation).
     We would like to express our appreciation for their open-source
