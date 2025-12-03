@@ -35,7 +35,6 @@ def get_arguments():
     args = parser.parse_args()
     return args
 
-
 if __name__ in "__main__":
     # input arguments
     args = get_arguments()
