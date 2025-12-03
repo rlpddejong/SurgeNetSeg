@@ -109,5 +109,13 @@ custom_names = {
     46: "Duodenum",
 }
 
-custom_palette_np = np.array([color_palette.get(i, (0, 0, 0)) for i in range(101)])
+color_palette = {
+    1: (255, 0, 0),  # Tools/camera - White
+}
+
+custom_names = {
+    1: "Temporary class",
+}
+
+custom_palette_np = np.array([color_palette.get(i, (0, 0, 0)) for i in range(len(custom_names)+1)])
 custom_palette = custom_palette_np.astype(np.uint8).tobytes()

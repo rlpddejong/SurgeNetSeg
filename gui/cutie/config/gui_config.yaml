@@ -9,8 +9,8 @@ mask_endpoint: masks
 vis_endpoint: vis
 
 amp: True
-weights: weights/cutie-surgenetseg-50k.pth
-ritm_weights: weights/ritm-surgenetseg-50k.pth
+weights: gui/weights/cutie-surgenetseg-50k.pth
+ritm_weights: gui/weights/ritm-surgenetseg-50k.pth
 
 # All "size" parameters represent the length of the shorter edge
 # maximum internal processing size; reducing this speeds up processing

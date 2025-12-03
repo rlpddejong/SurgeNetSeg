@@ -52,8 +52,8 @@ You can also download these files directly from the Hugging Face project
 page:\
 https://huggingface.co/TimJaspersTue/SurgeNetSeg
 
-Place the downloaded `.pth` files in a `weights/` directory (or another
-preferred location) and point your scripts to that path.
+Place the downloaded `.pth` files in a `gui/weights/` directory (or another
+preferred location and point your scripts to that path).
 
 ------------------------------------------------------------------------
 
